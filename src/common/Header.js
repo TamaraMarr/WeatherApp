@@ -1,16 +1,11 @@
-import React, { Component } from 'react';
-import { Row, Col } from "react-bootstrap";
+import React from "react";
 
-class Header extends Component {
-    render() {
-        return (
-            <Row>
-                <Col lg={12}>
-                    <h1>Weather App</h1>
-                </Col>
-            </Row>
-        );
-    }
-}
+const Header = () => {
+	return (
+		<div className="row">
+			<h1 className="offset-1">WeatherApp</h1>
+		</div>
+	);
+};
 
 export default Header;

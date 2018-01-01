@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, Col, Row } from 'react-bootstrap';
 
 import FetchDataService from "./../services/fetchDataService";
-import WeatherInfo from './WeatherInfo';
+import WeatherInfo from '../components/WeatherInfo';
 import City from '../entities/City';
 
 class Search extends Component {
@@ -18,6 +17,13 @@ class Search extends Component {
         };
 
         this.fetchDataService = new FetchDataService();
+
+        this.bindInit();
+    }
+
+    bindInit() {
+        this.handleClick = this.handleClick.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     handleChange = (event) => {
@@ -33,32 +39,35 @@ class Search extends Component {
             this.fetchDataService.get(
                 this.state.inputValue, response => {
                     const singleCity = new City(response);
-                    this.setState({DTOCities:[singleCity, ...this.state.DTOCities]});
-
+                    this.setState({
+                        DTOCities:[singleCity, ...this.state.DTOCities]
+                    });
                 }, error => {
                     console.log(error);
                 });
         this.setState({
             showData: true,
+            inputValue: ""
         });
+    }
+
+    handleKeyPress(event) {
+        if(event.key === 'Enter') {
+            this.handleClick();
+        }
     }
 
     render() {
         return (
-            <Row>
-                <FormGroup>
-                    <Col sm={12}>
-                        <FormControl type="text" placeholder="search..." value={this.state.inputValue} onChange={this.handleChange} />
-                        <button onClick={this.handleClick}>Search</button>
-                    </Col>
-                </FormGroup>
-                {this.state.DTOCities.map(city => {
-                    console.log(city);
-                    return (
-                        this.state.showData ? <WeatherInfo key={city.id} singleCity={city} /> : ""
-                    );
-                })}
-            </Row>
+            <div className="row">
+                    <input type="text" placeholder="search..." value={this.state.inputValue} onChange={this.handleChange} onKeyPress={this.handleKeyPress}/>
+                    <button onClick={this.handleClick}>Search</button>
+                    {this.state.DTOCities.map(city => {
+                        return (
+                            this.state.showData ? <WeatherInfo key={city.id} singleCity={city} /> : ""
+                        );
+                    })}
+            </div>
         );
     }
 }

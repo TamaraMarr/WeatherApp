@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
-import './App.css';
+
 import Header from "./common/Header";
-import Footer from "./common/Footer";
-import { Grid } from "react-bootstrap";
 import Search from "./common/Search";
 
-class App extends Component {
+import './App.css';
+
+export default class App extends Component {
   render() {
     return (
-      <Grid>
+      <div className="container col-12">
         <Header />
         <Search />
-        <Footer />
-      </Grid>
+      </div>
     );
   }
 }
-
-export default App;
