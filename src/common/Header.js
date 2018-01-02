@@ -1,9 +1,11 @@
 import React from "react";
 
+import "./Header.css";
+
 const Header = () => {
 	return (
-		<div className="row">
-			<h1 className="offset-1">WeatherApp</h1>
+		<div>
+			<h1 className="Header_titleStyle">WeatherApp</h1>
 		</div>
 	);
 };

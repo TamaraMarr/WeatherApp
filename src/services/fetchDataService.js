@@ -9,6 +9,7 @@ class FetchDataService {
             url: `${BASE_API_URL}${searchString}`,
         })
             .then(response => callback(response.data))
+            
             .catch(error => errorHandler(error));
         ;
     }

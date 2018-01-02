@@ -4,7 +4,9 @@ import FetchDataService from "./../services/fetchDataService";
 import WeatherInfo from '../components/WeatherInfo';
 import City from '../entities/City';
 
-class Search extends Component {
+import "./Search.css";
+
+export default class Search extends Component {
     constructor() {
         super();
         this.state = {
@@ -59,9 +61,8 @@ class Search extends Component {
 
     render() {
         return (
-            <div className="row">
-                    <input type="text" placeholder="search..." value={this.state.inputValue} onChange={this.handleChange} onKeyPress={this.handleKeyPress}/>
-                    <button onClick={this.handleClick}>Search</button>
+            <div className="row" style={{margin: 0}}>
+                    <input type="text" placeholder="Enter a city name and press enter" value={this.state.inputValue} onChange={this.handleChange} onKeyPress={this.handleKeyPress} className="col-10 offset-1 form-control Search_inputStyle" />
                     {this.state.DTOCities.map(city => {
                         return (
                             this.state.showData ? <WeatherInfo key={city.id} singleCity={city} /> : ""
@@ -71,5 +72,3 @@ class Search extends Component {
         );
     }
 }
-
-export default Search;

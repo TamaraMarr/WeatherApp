@@ -4,6 +4,7 @@ export default class City {
         this.long= response.city.coord.lon;
         this.weatherDataArray = response.list;
         this.id = response.city.id;
+        this.cityName = response.city.name;
     }
 
     getTemp() {
@@ -16,5 +17,11 @@ export default class City {
         let humidityInTown = this.weatherDataArray.map(humidity => humidity.main.humidity);
 
         return humidityInTown;
+    }
+
+    getWeatherDescription() {
+        let weatherDescription = this.weatherDataArray.map(weatherDescr => weatherDescr.weather[0].description);
+        
+        return weatherDescription;
     }
 }

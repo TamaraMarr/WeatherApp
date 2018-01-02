@@ -1,49 +1,67 @@
 import React, { Component } from 'react';
-import { Col, Table } from 'react-bootstrap'; 
-import { Sparklines, SparklinesLine } from "react-sparklines";
+import { Sparklines, SparklinesLine, SparklinesReferenceLine, SparklinesSpots } from "react-sparklines";
+
 import { MapWithAMarker } from "./Map";
 
-class WeatherInfo extends Component {
+import "./WeatherInfo.css";
+
+export default class WeatherInfo extends Component {
     
-    componentDidMount() {
-        
+    getTempForDisplay() {
+        const tempArray = this.props.singleCity.getTemp();
+
+        return Math.round(tempArray[0]);
+    }
+
+    getHumForDisplay() {
+        const humArray = this.props.singleCity.getHumidity(); 
+
+        return humArray[0];
+    }
+
+    getWeatherDescriptionForDisplay() {
+        const weatherDescriptionArray = this.props.singleCity.getWeatherDescription();
+
+        return weatherDescriptionArray[0].charAt(0).toUpperCase() + weatherDescriptionArray[0].slice(1);
     }
 
     render() {
         return (
-            <Col sm={12}>
-                <Table style={{ width: "90%", margin: "0 auto" }}>
-                    <thead>
-                        <tr>
-                            <th>City map</th>
-                            <th>Temperature</th>
-                            <th>Humidity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><MapWithAMarker
-                                center={{ lat: this.props.singleCity.lat, lng: this.props.singleCity.long }}
-                                googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg&v=3.exp&libraries=geometry,drawing,places"
-                                loadingElement={<div style={{ height: `100%` }} />}
-                                containerElement={<div style={{ height: `400px` }} />}
-                                mapElement={<div style={{ height: `100%` }} />}
-                            />
-                            </td>
-                            <td><Sparklines data={this.props.singleCity.getTemp()}>
-                                <SparklinesLine color="red" />
-                                </Sparklines>
-                            </td>
-                            <td><Sparklines data={this.props.singleCity.getHumidity()}>
-                                <SparklinesLine color="blue" />
-                                </Sparklines>
-                            </td>
-                        </tr>
-                    </tbody>
-                </Table>
-            </Col>
+            <div>
+                <div className="row">
+                    <div>
+                        <p className="col-12 WeatherInfo_headerStyle">Current weather conditions in {this.props.singleCity.cityName}</p>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-12 col-md-12 col-lg-4 col-xl-4 WeatherInfo_columnStyle">
+                        <p className="WeatherInfo_currentInfo">{this.getWeatherDescriptionForDisplay()}</p>
+                        <MapWithAMarker
+                            center={{ lat: this.props.singleCity.lat, lng: this.props.singleCity.long }}
+                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg&v=3.exp&libraries=geometry,drawing,places"
+                            loadingElement={<div style={{ height: `100%` }} />}
+                            containerElement={<div style={{ height: `273px` }} />}
+                            mapElement={<div style={{ height: `100%` }} />}
+                        />
+                    </div>
+                    <div className="col-sm-12 col-md-12 col-lg-4 col-xl-4 WeatherInfo_columnStyle">
+                        <p className="WeatherInfo_currentInfo">Average temperature: {this.getTempForDisplay()}&#176;C</p>
+                        <Sparklines data={this.props.singleCity.getTemp()} height={220}>
+                            <SparklinesLine color="red" />
+                            <SparklinesReferenceLine type="mean" />
+                            <SparklinesSpots />
+                        </Sparklines>
+                    </div>
+                    <div className="col-sm-12 col-md-12 col-lg-4 col-xl-4 WeatherInfo_columnStyle">
+                        <p className="WeatherInfo_currentInfo">Average humidity: {this.getHumForDisplay()}%</p>
+                        <Sparklines data={this.props.singleCity.getHumidity()} height={220}>
+                            <SparklinesLine color="blue" />
+                            <SparklinesReferenceLine type="mean" />
+                            <SparklinesSpots />
+                        </Sparklines>
+                    </div>
+                </div>
+            </div>
         );
     }
 }
-
-export default WeatherInfo;
