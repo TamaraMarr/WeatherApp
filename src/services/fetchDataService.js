@@ -3,7 +3,7 @@ import axios from "axios";
 
 class FetchDataService {
 
-    get(searchString, callback, errorHandler) {
+    getWeatherData(searchString, callback, errorHandler) {
         axios({
             method: "GET",
             url: `${BASE_API_URL}${searchString}`,

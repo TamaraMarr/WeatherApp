@@ -15,7 +15,10 @@ export default class Search extends Component {
             showData: false,
             cities: [],
             id: 0,
-            DTOCities: []
+            DTOCities: [],
+            noSearchStringError: false,
+            noResultsError: false,
+            generalError: false
         };
 
         this.fetchDataService = new FetchDataService();
@@ -36,16 +39,32 @@ export default class Search extends Component {
 
     handleClick = () => {
             this.setState({
-                searchCity: this.state.inputValue
+                searchCity: this.state.inputValue,
+                noSearchStringError: false,
+                noResultsError: false,
+                generalError: false
             })
-            this.fetchDataService.get(
+
+            this.fetchDataService.getWeatherData(
                 this.state.inputValue, response => {
                     const singleCity = new City(response);
                     this.setState({
                         DTOCities:[singleCity, ...this.state.DTOCities]
                     });
                 }, error => {
-                    console.log(error);
+                    if(error.response.status === 400) {
+                        this.setState({
+                            noSearchStringError: true
+                        })
+                    } else if(error.response.status === 404) {
+                        this.setState({
+                            noResultsError: true
+                        })
+                    } else {
+                        this.setState({
+                            generalError: true
+                        })
+                    }
                 });
         this.setState({
             showData: true,
@@ -62,12 +81,15 @@ export default class Search extends Component {
     render() {
         return (
             <div className="row" style={{margin: 0}}>
-                    <input type="text" placeholder="Enter a city name and press enter" value={this.state.inputValue} onChange={this.handleChange} onKeyPress={this.handleKeyPress} className="col-10 offset-1 form-control Search_inputStyle" />
-                    {this.state.DTOCities.map(city => {
-                        return (
-                            this.state.showData ? <WeatherInfo key={city.id} singleCity={city} /> : ""
-                        );
-                    })}
+                <input type="text" placeholder="Enter a city name and press enter" value={this.state.inputValue} onChange={this.handleChange} onKeyPress={this.handleKeyPress} className="col-10 offset-1 form-control Search_inputStyle" />
+                {this.state.noSearchStringError ? <p className="Search_errorStyle">Please enter a search term, e.g. Belgrade</p> : ""}
+                {this.state.noResultsError ? <p className="Search_errorStyle">There are no results for the entered term</p> : ""}
+                {this.state.generalError ? <p className="Search_errorStyle">There's been an error. Please reload the page</p> : ""}
+                {this.state.DTOCities.map(city => {
+                    return (
+                        this.state.showData ? <WeatherInfo key={city.id} singleCity={city} /> : ""
+                    );
+                })}
             </div>
         );
     }
