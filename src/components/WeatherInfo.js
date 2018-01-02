@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Sparklines, SparklinesLine, SparklinesReferenceLine, SparklinesSpots } from "react-sparklines";
 
+import { API_KEY } from "../constants";
 import { MapWithAMarker } from "./Map";
 
 import "./WeatherInfo.css";
@@ -38,7 +39,7 @@ export default class WeatherInfo extends Component {
                         <p className="WeatherInfo_currentInfo">{this.getWeatherDescriptionForDisplay()}</p>
                         <MapWithAMarker
                             center={{ lat: this.props.singleCity.lat, lng: this.props.singleCity.long }}
-                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg&v=3.exp&libraries=geometry,drawing,places"
+                            googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
                             loadingElement={<div style={{ height: `100%` }} />}
                             containerElement={<div style={{ height: `273px` }} />}
                             mapElement={<div style={{ height: `100%` }} />}
