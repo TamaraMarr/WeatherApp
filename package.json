@@ -1,7 +1,15 @@
 {
   "name": "weather",
   "version": "0.1.0",
-  "private": true,
+  "homepage": "https://TamaraMarr.github.io/WeatherApp",
+  "description": "Sample WeatherApp",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "deploy": "yarn run build run build&&gh-pages -d build"
+  },
   "dependencies": {
     "axios": "^0.17.1",
     "google-map-react": "^0.25.0",
@@ -14,16 +22,6 @@
     "react-sparklines": "^1.7.0",
     "youtube-api-search": "^0.0.5"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
-  },
-  "homepage": "https://TamaraMarr.github.io/WeatherApp",
-  "deploy": "npm run build&&gh-pages -d build",
   "devDependencies": {
     "gh-pages": "^1.1.0",
     "git-push": "^0.1.1"
