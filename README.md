@@ -2,7 +2,7 @@
 
 WeatherApp displays the map, current average temperature and humidity in a chosen city. It also lets you compare that data to the ones in other chosen cities.
 
-Demo: [WeatherApp](https://tamaramarr.github.io/WeatherApp/).
+Demo: [WeatherApp](https://tamaramarr.github.io/weather-app/).
 
 ### Stack
 
